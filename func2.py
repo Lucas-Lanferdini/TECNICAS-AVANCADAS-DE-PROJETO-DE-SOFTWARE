@@ -3,19 +3,8 @@ import random
 import time
 import pandas as pd
 from database import connect_db, get_cursor
-
-def fin(cursos, db, DrawDone):
-            cpfDuplicate = 0  # Variável para saber se o CPF é duplicado
-            
-            if DrawDone:  # Se o sorteio já foi realizado, mostra uma mensagem e volta para o menu inicial
-                print('''Sorteio ja realizado, nao aceitando novas apostas
-                Para conferir a apuracao selecione a opcao 4
-                Para realizar um novo sorteio selecione a opcao 1''')
-            else:
-                nameUser = input("Informe o nome do usuario: ")  # Salva o nome do usuário
-                nameUser = "'"+nameUser+"'"  # Deixa o nome em formato para ser salvo no banco de dados
-                print(nameUser)
-                while True:  # Laço de repetição até um CPF válido
+def validateCPF():
+      while True:  # Laço de repetição até um CPF válido
                     # VARIÁVEIS CÁLCULO CPF
                     j = 10
                     k = 11
@@ -25,7 +14,8 @@ def fin(cursos, db, DrawDone):
                     try:
                         if cpfDuplicate == 2:  # Se o CPF foi duplicado e deseja usar ele para outra aposta, sai do laço de repetição
                             break
-                        cpf = input("Informa o CPF (somente o numero): ")  # Salva o CPF
+                        if cpf == 0:
+                            cpf = input("Informa o CPF (somente o numero): ")  # Salva o CPF
                         if cpf.isdigit() and len(cpf) == 11:  # Confere se o CPF é composto só por números e tem 11 de tamanho
                             for i in range(9):  # Verifica o primeiro número verificador
                                 sumJ += int(cpf[i]) * j  # Soma os 9 primeiros números do CPF * a variável j
@@ -75,6 +65,21 @@ def fin(cursos, db, DrawDone):
                                     print("Informe 1 ou 2")
                             except:
                                 print("Valor numerico nao informado")
+
+
+
+def f2(cursos, db, DrawDone):
+            cpfDuplicate = 0  # Variável para saber se o CPF é duplicado
+            
+            if DrawDone:  # Se o sorteio já foi realizado, mostra uma mensagem e volta para o menu inicial
+                print('''Sorteio ja realizado, nao aceitando novas apostas
+                Para conferir a apuracao selecione a opcao 4
+                Para realizar um novo sorteio selecione a opcao 1''')
+            else:
+                nameUser = input("Informe o nome do usuario: ")  # Salva o nome do usuário
+                nameUser = "'"+nameUser+"'"  # Deixa o nome em formato para ser salvo no banco de dados
+                print(nameUser)
+                validateCPF()
                 
                 numsBet = [-1, -2, -3, -4, -5]  # Array onde serão salvos os números apostados
                 
